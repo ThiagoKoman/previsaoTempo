@@ -7,9 +7,17 @@ function getParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-function getTomorrow(){
+function getWeekDay(){
+    let weekDayArr = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira", "Sábado"];
     let currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 1);
+
+    let weekDayNum = currentDate.getDay();
+
+    return weekDayArr[weekDayNum];
+}
+function getToday(){
+    let currentDate = new Date();
+    //currentDate.setDate(currentDate.getDate() + 1);
 
     let day = currentDate.getDate();
     let month = currentDate.getMonth() + 1;
@@ -35,69 +43,33 @@ fetch(`https://apiprevmet3.inmet.gov.br/previsao/${code}`)
 
 function createView(obj){
     let previews = obj[code];  
-    let tomorow = getTomorrow();
-    let valuesForTomorow = previews[tomorow];
+  
+    let today = getToday();
+    let weekDay = getWeekDay();
 
-    let manha = valuesForTomorow.manha;
-    let tarde = valuesForTomorow.tarde;
-    let noite = valuesForTomorow.noite;
+    let valuesForToday = previews[today];
+    let manha = valuesForToday.manha;
+    console.log(manha)
 
-    let local = `${manha.entidade}-${manha.uf}`;
-    document.getElementById('local').innerHTML = `${tomorow} em ${local}`;
-
-    let list = document.getElementById('lista');
-    list.appendChild(createTemplate(manha, 'manhã'));
-    list.appendChild(createTemplate(tarde, 'tarde'));
-    list.appendChild(createTemplate(noite, 'noite'));
-}
-
-function createTemplate(values, period){
-
-    let li = document.createElement('li');
-
-    let h3 = document.createElement('h3');
-    let img = document.createElement('img');
-    let desc = document.createElement('small');
-    let divTemp = document.createElement('div');
-    let divTempInt1 = document.createElement('div');
-    let p1Title = document.createElement('p');
-    let p1Value = document.createElement('p');
-    let divTempInt2 = document.createElement('div');
-    let p2Title = document.createElement('p');
-    let p2Value = document.createElement('p');
-    let divUmidade = document.createElement('div');
-    let pUmidadeTitle = document.createElement('p');
-    let pUmidadeValue = document.createElement('p');
+    let city = manha.entidade;
     
-    h3.innerText = period;
-    img.src = values.icone;
-    desc.innerText = values.resumo;
-    divTemp.classList.add('temperatura');
-    p1Title.innerText = "Mínima";
-    p2Title.innerText = "Máxima";
-    p1Value.innerText = `${values.temp_min}°C`;
-    p2Value.innerText = `${values.temp_max}°C`;
-    pUmidadeTitle.innerText = "Umidade média";
-    let umidade = ((values.umidade_max+values.umidade_min)/2).toFixed();    ;
-    pUmidadeValue.innerText = `${umidade}%`;
+    let humity = parseInt((manha.umidade_max+manha.umidade_min)/2);
 
-    li.appendChild(h3);
-    li.appendChild(img);
-    li.appendChild(desc);
-    li.appendChild(divTemp);
-    li.appendChild(divUmidade);
+    let tempMax = manha.temp_max;
+    let tempMin = manha.temp_min;
 
-    divTemp.appendChild(divTempInt1);
-    divTemp.appendChild(divTempInt2);
+    let condition = manha.resumo;
 
-    divTempInt1.appendChild(p1Title);
-    divTempInt1.appendChild(p1Value);
+    let temp = parseInt(tempMax-((tempMax - tempMin)/2));
 
-    divTempInt2.appendChild(p2Title);
-    divTempInt2.appendChild(p2Value);
-
-    divUmidade.appendChild(pUmidadeTitle);
-    divUmidade.appendChild(pUmidadeValue);
-
-    return li;
+    document.getElementById('data-city').innerHTML = city;
+    document.getElementById('data-weekday').innerHTML = weekDay;
+    document.getElementById('data-date').innerHTML = today;
+    document.getElementById('data-humidity').innerHTML = humity+"%";
+    document.getElementById('data-temperature').innerHTML = temp + "°C";
+    document.getElementById('data-condition').innerHTML = condition;
+    document.getElementById('data-minimum').innerHTML = tempMin;
+    document.getElementById('data-maximum').innerHTML = tempMax;
+    
 }
+

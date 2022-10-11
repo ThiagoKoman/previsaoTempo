@@ -1,48 +1,69 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 *{
     font-family: 'Roboto', sans-serif;
+    color: white;
+    text-align: center;
 }
 
 body{
     background: grey;
+    margin: 0;
 }
 
-ul{
+
+section{
+    background-image: url("./img/bg.png");
+    height: 100vh;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
-li{
-    list-style: none;
-    border: 1px solid black;
-    border-radius: 14px;
-    padding: 20px;
+
+.left-content{
+    width: 20%;
+    padding-left: 50px;
+}
+.centered-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+}
+.right-content{
     width: 20%;
 }
 
-section{
-    background: white;
-    border-radius: 20px;
-    padding: 10px 40px;
-    height: calc(100vh - 16px);
-    box-sizing: border-box;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-content: space-around;
-    justify-content: space-evenly;
+.left-content h2, .left-content p{
+ text-align: left;
 }
 
-.temperatura{
-    display: flex;
-    justify-content: space-around;
+img{
+    max-width: 280px;
 }
 
+h1{
+    font-size: 300px;
+    margin: 0px 0;
+    margin-top: 200px;
+}
+
+h2{
+    font-size: 60px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 h3{
-    text-transform: capitalize;
+    font-size: 48px;
+    font-weight: normal;
+    margin: 0;
 }
 
-small{
-    display: block;
-    height: 50px;
+p{
+    font-size: 45px;
+    margin: 10px 0;
+}
+
+#data-condition{
+    width: 80%;
+    margin-left: 10%;
 }
